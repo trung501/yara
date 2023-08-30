@@ -41,12 +41,30 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "notebook.h"
 
-typedef struct detectResult
+typedef struct itemMeta
 {
-  const wchar_t* file_name;
-  int size;
-  const char** rules;
-} detectResult;
+  const wchar_t* key;
+  const wchar_t* value;
+} itemMeta;
+
+typedef struct MetaData
+{
+  const itemMeta** arrMeta;
+  int numberMeta;
+} MetaData;
+
+typedef struct RuleMatch
+{
+  const char* rule_name;
+  MetaData metaData;
+} RuleMatch;
+
+typedef struct DetectResult
+{
+  const wchar_t* fileName;
+  int numberRuleMatch;
+  RuleMatch** ruleMatch;
+} DetectResult;
 
 #define DECLARE_REFERENCE(type, name) \
   union                               \
