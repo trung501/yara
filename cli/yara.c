@@ -160,7 +160,7 @@ static bool show_stats = false;
 static bool show_strings = false;
 static bool show_string_length = false;
 static bool show_xor_key = false;
-static bool show_meta = false;
+static bool show_meta = true;
 static bool show_module_names = false;
 static bool show_namespace = false;
 static bool show_version = false;
@@ -413,7 +413,7 @@ MUTEX queue_mutex;
 MUTEX output_mutex;
 
 MODULE_DATA* modules_data_list = NULL;
-detectResult* dr = NULL;
+DetectResult* dr = NULL;
 
 const char* filesavetemp = "log.txt";
 
@@ -1111,6 +1111,18 @@ static void print_compiler_error(
   }
 }
 
+int getlengthMetaRule(YR_RULE* rule)
+{
+  int length = 0;
+  YR_META* meta = rule->metas;
+  while (meta != NULL)
+  {
+    meta = META_IS_LAST_IN_RULE(meta) ? NULL : meta + 1;
+    length++;
+  }
+  return length;
+}
+
 static void print_rules_stats(YR_RULES* rules)
 {
   YR_RULES_STATS stats;
@@ -1217,7 +1229,10 @@ static int handle_message(
     //wchar_t * rulename= ConvertToWideChar(rule->identifier);
     //WriteToFile(filesavetemp, rulename);
     //WriteToFile(filesavetemp, L'\r');
-    dr->rules[dr->size++] = rule->identifier;
+
+    //dr->ruleMatch[dr->numberRuleMatch]->rule_name = rule->identifier;
+    dr->rulematchs[dr->size] = calloc(1, sizeof(RuleMatch*));
+    dr->rulematchs[dr->size]->rulename = rule->identifier;
     if (show_tags)
     {
       _tprintf(_T("["));
@@ -1241,15 +1256,22 @@ static int handle_message(
       YR_META* meta;
 
       _tprintf(_T("["));
-
+      dr->rulematchs[dr->size]->metadata = calloc(1, sizeof(Metadata));
+      int lengthmetarule = getlengthMetaRule(rule);
+      dr->rulematchs[dr->size]->metadata->key = calloc(lengthmetarule+1,sizeof(char*));
+      dr->rulematchs[dr->size]->metadata->value = calloc(lengthmetarule+1,sizeof(char*));
       yr_rule_metas_foreach(rule, meta)
       {
+        int size_meta = dr->rulematchs[dr->size]->metadata->size;
+        dr->rulematchs[dr->size]->metadata->key[size_meta] = meta->identifier;
+        dr->rulematchs[dr->size]->metadata->value[size_meta] = meta->string;
         if (meta != rule->metas)
           _tprintf(_T(","));
-
+        
         if (meta->type == META_TYPE_INTEGER)
         {
           _tprintf(_T("%" PF_S " =%" PRId64), meta->identifier, meta->integer);
+          
         }
         else if (meta->type == META_TYPE_BOOLEAN)
         {
@@ -1262,8 +1284,10 @@ static int handle_message(
         {
           _tprintf(_T("%" PF_S "=\""), meta->identifier);
           print_escaped((uint8_t*) (meta->string), strlen(meta->string));
+          
           _tprintf(_T("\""));
         }
+        dr->rulematchs[dr->size]->metadata->size += 1;
       }
 
       _tprintf(_T("] "));
@@ -1273,7 +1297,7 @@ static int handle_message(
 
     //WriteToFile(filesavetemp, ((CALLBACK_ARGS*) data)->file_path);
    // WriteToFile(filesavetemp, L'\n');
-    dr->file_name = ((CALLBACK_ARGS*) data)->file_path;
+    //dr->fileName = ((CALLBACK_ARGS*) data)->file_path;
     // Show matched strings.
 
     if (show_strings || show_string_length || show_xor_key)
@@ -1319,7 +1343,7 @@ static int handle_message(
         }
       }
     }
-
+    dr->size++;
     cli_mutex_unlock(&output_mutex);
   }
 
@@ -1742,8 +1766,9 @@ int init_function(const wchar_t* pathRule)
   return 1;
 
 }
+#define MAX 100
 
-const detectResult* detect(const wchar_t* pathFileScan)
+const DetectResult* detect(const wchar_t* pathFileScan)
 {
 
   
@@ -1757,10 +1782,13 @@ const detectResult* detect(const wchar_t* pathFileScan)
     fprintf(stderr, "Chua ho tro quet thu muc\n");
     return NULL;
   }
+  
 
-  dr = (detectResult*) calloc(1, sizeof(detectResult));
-  dr->rules = (wchar_t**) calloc(100, sizeof(char*));
+
+  dr = (DetectResult*) calloc(1, sizeof(DetectResult));
+  dr->file_name = pathFileScan;
   dr->size = 0;
+  dr->rulematchs = (RuleMatch**) calloc(100, sizeof(RuleMatch*));
 
   if (scan_list_search && arg_is_dir)
   {
@@ -1871,7 +1899,7 @@ const detectResult* detect(const wchar_t* pathFileScan)
 #endif
   }
 
-  const detectResult * dr_result = dr;
+  const DetectResult * dr_result = dr;
   dr = NULL;
 
   result = EXIT_SUCCESS;
@@ -1895,6 +1923,45 @@ void destroy() {
   args_free(options);
 }
 
+//void freeMetadata(Metadata* md)
+//{
+//  if (md)
+//  {
+//    for (int i = 0; i < md->size; ++i)
+//    {
+//      free(md->key[i]);
+//      free(md->value[i]);
+//    }
+//    free(md->key);
+//    free(md->value);
+//    free(md);
+//  }
+//}
+//
+//void freeRuleMatch(RuleMatch* rm)
+//{
+//  if (rm)
+//  {
+//    free( rm->rulename);
+//    freeMetadata(rm->metadata);
+//    free(rm);
+//  }
+//}
+//
+//void freeDetectResult(DetectResult* dr)
+//{
+//  if (dr)
+//  {
+//    for (int i = 0; i < dr->size; ++i)
+//    {
+//      freeRuleMatch(dr->rulematchs[i]);
+//    }
+//    free(dr->rulematchs);
+//    free((wchar_t*) dr->file_name);
+//    free(dr);
+//  }
+//}
+
 int _tmain(int argc, const char_t** argv) {
     
     //main_funtion(argc, argv);
@@ -1905,9 +1972,14 @@ int _tmain(int argc, const char_t** argv) {
     return EXIT_FAILURE;
   }
 
-  const detectResult * dr1= detect(L"C:\\Users\\TRUNG\\Desktop\\yara-dll\\windows\\vs2017\\Debug\\test-alignment.exe");
+  const DetectResult* dr1 = detect(
+      L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
+  //freeDetectResult((DetectResult*) dr1);
   fprintf(stderr, "Call secord:\n");
-  const detectResult* dr2 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
+  const DetectResult* dr2 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
+  const DetectResult* dr3 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
+  const DetectResult* dr4 = detect(
+      L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
   destroy();
 
     
