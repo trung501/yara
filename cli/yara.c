@@ -1775,6 +1775,7 @@ const DetectResult* detect(const wchar_t* pathFileScan)
   bool arg_is_dir = false;
   int result;
   int flags = 0;
+  const DetectResult* dr_result = NULL;
 
   arg_is_dir = is_directory(pathFileScan);
   if (arg_is_dir == true)
@@ -1899,7 +1900,7 @@ const DetectResult* detect(const wchar_t* pathFileScan)
 #endif
   }
 
-  const DetectResult * dr_result = dr;
+  dr_result = dr;
   dr = NULL;
 
   result = EXIT_SUCCESS;
