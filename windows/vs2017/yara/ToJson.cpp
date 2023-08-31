@@ -4,8 +4,6 @@
 #include <wchar.h>
 #include <yara/types.h>
 
-
-
 #define SIZE 100
 
 char* wchar2char(const wchar_t* name)
@@ -20,7 +18,6 @@ char* wchar2char(const wchar_t* name)
 
 char* Convert2Json(DetectResult detectRes)
 {
-  // Chuyển đổi cấu trúc ScanResult thành đối tượng JSON
 
   cJSON* detectResJson = cJSON_CreateObject();
   char* filename = (char*) malloc(SIZE);
@@ -71,7 +68,8 @@ char* Convert2Json(DetectResult detectRes)
   }
 
   cJSON_AddItemToObject(detectResJson, "rule_match", RuleMatchJson);
-  // Chuyển đối tượng JSON thành chuỗi
+
+
   char* jsonString = cJSON_Print(detectResJson);
   return jsonString;
 }
