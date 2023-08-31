@@ -2042,7 +2042,9 @@ int _tmain(int argc, const char_t** argv) {
   //freeDetectResult((DetectResult*) dr1);
   fprintf(stderr, "Call secord:\n");
 
-  const DetectResult* dr2 = detect(L"C:\\Users\\CHU-TUAN-KIET\\Desktop\\1\\opera_elf.dll");
+  const DetectResult* dr2 = detect(
+      L"C:\\Users\\CHU-TUAN-KIET\\Desktop\\1\\mustang\\48-4D-7E-AE-87-"
+      L"7A\\Adobe_Caps.dll");
   /*const DetectResult* dr3 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
   const DetectResult* dr4 = detect(
       L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dvll");*/
