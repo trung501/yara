@@ -1923,44 +1923,38 @@ void destroy() {
   args_free(options);
 }
 
-//void freeMetadata(Metadata* md)
-//{
-//  if (md)
-//  {
-//    for (int i = 0; i < md->size; ++i)
-//    {
-//      free(md->key[i]);
-//      free(md->value[i]);
-//    }
-//    free(md->key);
-//    free(md->value);
-//    free(md);
-//  }
-//}
-//
-//void freeRuleMatch(RuleMatch* rm)
-//{
-//  if (rm)
-//  {
-//    free( rm->rule_name);
-//    freeMetadata(rm->meta_data);
-//    free(rm);
-//  }
-//}
-//
-//void freeDetectResult(DetectResult* dr)
-//{
-//  if (dr)
-//  {
-//    for (int i = 0; i < dr->size; ++i)
-//    {
-//      freeRuleMatch(dr->rule_matchs[i]);
-//    }
-//    free(dr->rule_matchs);
-//    free((wchar_t*) dr->file_name);
-//    free(dr);
-//  }
-//}
+void free_metadata(Metadata* md)
+{
+  if (md)
+  {
+    free(md->key);
+    free(md->value);
+    free(md);
+  }
+}
+
+void free_rule_match(RuleMatch* rm)
+{
+  if (rm)
+  {
+    free_metadata(rm->meta_data);
+    free(rm);
+  }
+}
+
+void free_detect_result(DetectResult* dr)
+{
+  if (dr)
+  {
+    for (int i = 0; i < dr->size; ++i)
+    {
+      free_rule_match(dr->rule_matchs[i]);
+    }
+    free(dr->rule_matchs);
+    free(dr);
+  }
+
+}
 
 int _tmain(int argc, const char_t** argv) {
     
@@ -1974,12 +1968,17 @@ int _tmain(int argc, const char_t** argv) {
 
   const DetectResult* dr1 = detect(
       L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
-  //freeDetectResult((DetectResult*) dr1);
+  free_detect_result( dr1);
   fprintf(stderr, "Call secord:\n");
   const DetectResult* dr2 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
+  free_detect_result(dr2);
   const DetectResult* dr3 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
+  free_detect_result(dr3);
   const DetectResult* dr4 = detect(
       L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
+  free_detect_result(dr4);
+
+
   destroy();
 
     
