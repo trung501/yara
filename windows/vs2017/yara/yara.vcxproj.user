@@ -4,4 +4,7 @@
     <LocalDebuggerCommandArguments>C:\Users\TRUNG\Desktop\testrundll\x64\Debug\checkpefile.yara</LocalDebuggerCommandArguments>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup>
+    <ShowAllFiles>true</ShowAllFiles>
+  </PropertyGroup>
 </Project>

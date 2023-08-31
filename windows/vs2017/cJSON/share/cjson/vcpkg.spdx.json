@@ -1,0 +1,110 @@
+{
+  "$schema": "https://raw.githubusercontent.com/spdx/spdx-spec/v2.2.1/schemas/spdx-schema.json",
+  "spdxVersion": "SPDX-2.2",
+  "dataLicense": "CC0-1.0",
+  "SPDXID": "SPDXRef-DOCUMENT",
+  "documentNamespace": "https://spdx.org/spdxdocs/cjson-x86-windows-1.7.15#2-16a46bc8-feb9-4aea-a402-1c5192117e8c",
+  "name": "cjson:x86-windows@1.7.15#2 37cb85a4430fb12e3aa734ae116465ab9099b97a1155cf3ae01f99a3841ca9be",
+  "creationInfo": {
+    "creators": [
+      "Tool: vcpkg-9990a4c9026811a312cb2af78bf77f3d9d288416"
+    ],
+    "created": "2023-08-30T02:31:38Z"
+  },
+  "relationships": [
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "GENERATES",
+      "relatedSpdxElement": "SPDXRef-binary"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-0"
+    },
+    {
+      "spdxElementId": "SPDXRef-port",
+      "relationshipType": "CONTAINS",
+      "relatedSpdxElement": "SPDXRef-file-1"
+    },
+    {
+      "spdxElementId": "SPDXRef-binary",
+      "relationshipType": "GENERATED_FROM",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-0",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    },
+    {
+      "spdxElementId": "SPDXRef-file-1",
+      "relationshipType": "CONTAINED_BY",
+      "relatedSpdxElement": "SPDXRef-port"
+    }
+  ],
+  "packages": [
+    {
+      "name": "cjson",
+      "SPDXID": "SPDXRef-port",
+      "versionInfo": "1.7.15#2",
+      "downloadLocation": "git+https://github.com/Microsoft/vcpkg#ports/cjson",
+      "homepage": "https://github.com/DaveGamble/cJSON",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "description": "Ultralightweight JSON parser in ANSI C",
+      "comment": "This is the port (recipe) consumed by vcpkg."
+    },
+    {
+      "name": "cjson:x86-windows",
+      "SPDXID": "SPDXRef-binary",
+      "versionInfo": "37cb85a4430fb12e3aa734ae116465ab9099b97a1155cf3ae01f99a3841ca9be",
+      "downloadLocation": "NONE",
+      "licenseConcluded": "MIT",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "comment": "This is a binary package built by vcpkg."
+    },
+    {
+      "SPDXID": "SPDXRef-resource-1",
+      "name": "DaveGamble/cJSON",
+      "downloadLocation": "git+https://github.com/DaveGamble/cJSON@v1.7.15",
+      "licenseConcluded": "NOASSERTION",
+      "licenseDeclared": "NOASSERTION",
+      "copyrightText": "NOASSERTION",
+      "checksums": [
+        {
+          "algorithm": "SHA512",
+          "checksumValue": "0b32a758c597fcc90c8ed0af493c9bccd611b9d4f9a03e87de3f7337bb9a28990b810befd44bc321a0cb42cbcd0b026d45761f9bab7bd798f920b7b6975fb124"
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "fileName": "./C:/Users/CHU-TUAN-KIET/Desktop/thuctap586/buildyara/vcpkg-2023.08.09/vcpkg-2023.08.09/ports/cjson/portfile.cmake",
+      "SPDXID": "SPDXRef-file-0",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "8729f7761919b93d3d1ff1146e0ad8b932d102a814e00f907a5fa8c6c5e0546b"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    },
+    {
+      "fileName": "./C:/Users/CHU-TUAN-KIET/Desktop/thuctap586/buildyara/vcpkg-2023.08.09/vcpkg-2023.08.09/ports/cjson/vcpkg.json",
+      "SPDXID": "SPDXRef-file-1",
+      "checksums": [
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "4533f0dfd5b11d46a3cf2ed023f23e9478ff6b619843e6a7ef56cd22b03e1769"
+        }
+      ],
+      "licenseConcluded": "NOASSERTION",
+      "copyrightText": "NOASSERTION"
+    }
+  ]
+}
