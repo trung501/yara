@@ -55,11 +55,14 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 extern __declspec(dllexport) int init_function(const wchar_t* pathRule);
 extern __declspec(dllexport) const DetectResult* detect(
     const wchar_t* pathFileScan);
+extern __declspec(dllexport) void free_detect_result(DetectResult* dr);
 extern __declspec(dllexport) void destroy();
 #else
 extern __declspec(dllexport) int init_function(const wchar_t* pathRule);
 extern __declspec(dllexport) const DetectResult* detect(
     const wchar_t* pathFileScan);
+extern __declspec(dllexport) void free_detect_result(
+    DetectResult* dr);
 extern __declspec(dllexport) void destroy();
 #endif
 
