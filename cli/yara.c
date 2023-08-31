@@ -1231,8 +1231,8 @@ static int handle_message(
     //WriteToFile(filesavetemp, L'\r');
 
     //dr->ruleMatch[dr->numberRuleMatch]->rule_name = rule->identifier;
-    dr->rulematchs[dr->size] = calloc(1, sizeof(RuleMatch*));
-    dr->rulematchs[dr->size]->rulename = rule->identifier;
+    dr->rule_matchs[dr->size] = calloc(1, sizeof(RuleMatch*));
+    dr->rule_matchs[dr->size]->rule_name = rule->identifier;
     if (show_tags)
     {
       _tprintf(_T("["));
@@ -1256,15 +1256,15 @@ static int handle_message(
       YR_META* meta;
 
       _tprintf(_T("["));
-      dr->rulematchs[dr->size]->metadata = calloc(1, sizeof(Metadata));
+      dr->rule_matchs[dr->size]->meta_data = calloc(1, sizeof(Metadata));
       int lengthmetarule = getlengthMetaRule(rule);
-      dr->rulematchs[dr->size]->metadata->key = calloc(lengthmetarule+1,sizeof(char*));
-      dr->rulematchs[dr->size]->metadata->value = calloc(lengthmetarule+1,sizeof(char*));
+      dr->rule_matchs[dr->size]->meta_data->key = calloc(lengthmetarule+1,sizeof(char*));
+      dr->rule_matchs[dr->size]->meta_data->value = calloc(lengthmetarule+1,sizeof(char*));
       yr_rule_metas_foreach(rule, meta)
       {
-        int size_meta = dr->rulematchs[dr->size]->metadata->size;
-        dr->rulematchs[dr->size]->metadata->key[size_meta] = meta->identifier;
-        dr->rulematchs[dr->size]->metadata->value[size_meta] = meta->string;
+        int size_meta = dr->rule_matchs[dr->size]->meta_data->size;
+        dr->rule_matchs[dr->size]->meta_data->key[size_meta] = meta->identifier;
+        dr->rule_matchs[dr->size]->meta_data->value[size_meta] = meta->string;
         if (meta != rule->metas)
           _tprintf(_T(","));
         
@@ -1287,7 +1287,7 @@ static int handle_message(
           
           _tprintf(_T("\""));
         }
-        dr->rulematchs[dr->size]->metadata->size += 1;
+        dr->rule_matchs[dr->size]->meta_data->size += 1;
       }
 
       _tprintf(_T("] "));
@@ -1788,7 +1788,7 @@ const DetectResult* detect(const wchar_t* pathFileScan)
   dr = (DetectResult*) calloc(1, sizeof(DetectResult));
   dr->file_name = pathFileScan;
   dr->size = 0;
-  dr->rulematchs = (RuleMatch**) calloc(100, sizeof(RuleMatch*));
+  dr->rule_matchs = (RuleMatch**) calloc(100, sizeof(RuleMatch*));
 
   if (scan_list_search && arg_is_dir)
   {
@@ -1942,8 +1942,8 @@ void destroy() {
 //{
 //  if (rm)
 //  {
-//    free( rm->rulename);
-//    freeMetadata(rm->metadata);
+//    free( rm->rule_name);
+//    freeMetadata(rm->meta_data);
 //    free(rm);
 //  }
 //}
@@ -1954,9 +1954,9 @@ void destroy() {
 //  {
 //    for (int i = 0; i < dr->size; ++i)
 //    {
-//      freeRuleMatch(dr->rulematchs[i]);
+//      freeRuleMatch(dr->rule_matchs[i]);
 //    }
-//    free(dr->rulematchs);
+//    free(dr->rule_matchs);
 //    free((wchar_t*) dr->file_name);
 //    free(dr);
 //  }

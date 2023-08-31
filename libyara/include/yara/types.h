@@ -41,7 +41,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "notebook.h"
 
-typedef struct Metadata
+typedef struct MetaData
 {
   char** key;
   char** value;
@@ -50,15 +50,15 @@ typedef struct Metadata
 
 typedef struct RuleMatch
 {
-  char* rulename;
-  Metadata* metadata;
+  char* rule_name;
+  Metadata* meta_data;
 } RuleMatch;
 
 typedef struct DetectResult
 {
   wchar_t* file_name;
   int size;
-  RuleMatch** rulematchs;
+  RuleMatch** rule_matchs;
 } DetectResult;
 
 #define DECLARE_REFERENCE(type, name) \
