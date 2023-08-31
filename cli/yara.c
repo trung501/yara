@@ -1224,7 +1224,7 @@ static int handle_message(
     if (show_namespace)
       _tprintf(_T("%" PF_S ":"), rule->ns->name);
    
-    _tprintf(_T("%" PF_S " "), rule->identifier);
+    //_tprintf(_T("%" PF_S " "), rule->identifier);
 
     //wchar_t * rulename= ConvertToWideChar(rule->identifier);
     //WriteToFile(filesavetemp, rulename);
@@ -1233,21 +1233,21 @@ static int handle_message(
     //dr->ruleMatch[dr->numberRuleMatch]->rule_name = rule->identifier;
     dr->rule_matchs[dr->size] = calloc(1, sizeof(RuleMatch*));
     dr->rule_matchs[dr->size]->rule_name = rule->identifier;
-    if (show_tags)
-    {
-      _tprintf(_T("["));
+    //if (show_tags)
+    //{
+    //  _tprintf(_T("["));
 
-      yr_rule_tags_foreach(rule, tag)
-      {
-        // print a comma except for the first tag
-        if (tag != rule->tags)
-          _tprintf(_T(","));
+    //  yr_rule_tags_foreach(rule, tag)
+    //  {
+    //    // print a comma except for the first tag
+    //    if (tag != rule->tags)
+    //      _tprintf(_T(","));
 
-        _tprintf(_T("%" PF_S), tag);
-      }
+    //    _tprintf(_T("%" PF_S), tag);
+    //  }
 
-      _tprintf(_T("] "));
-    }
+    //  _tprintf(_T("] "));
+    //}
 
     // Show meta-data.
 
@@ -1255,7 +1255,7 @@ static int handle_message(
     {
       YR_META* meta;
 
-      _tprintf(_T("["));
+      //_tprintf(_T("["));
       dr->rule_matchs[dr->size]->meta_data = calloc(1, sizeof(Metadata));
       int lengthmetarule = getlengthMetaRule(rule);
       dr->rule_matchs[dr->size]->meta_data->key = calloc(lengthmetarule+1,sizeof(char*));
@@ -1265,38 +1265,36 @@ static int handle_message(
         int size_meta = dr->rule_matchs[dr->size]->meta_data->size;
         dr->rule_matchs[dr->size]->meta_data->key[size_meta] = meta->identifier;
         dr->rule_matchs[dr->size]->meta_data->value[size_meta] = meta->string;
-        if (meta != rule->metas)
-          _tprintf(_T(","));
-        
-        if (meta->type == META_TYPE_INTEGER)
-        {
-          _tprintf(_T("%" PF_S " =%" PRId64), meta->identifier, meta->integer);
-          
-        }
-        else if (meta->type == META_TYPE_BOOLEAN)
-        {
-          _tprintf(
-              _T("%" PF_S "=%" PF_S),
-              meta->identifier,
-              meta->integer ? "true" : "false");
-        }
-        else
-        {
-          _tprintf(_T("%" PF_S "=\""), meta->identifier);
-          print_escaped((uint8_t*) (meta->string), strlen(meta->string));
-          
-          _tprintf(_T("\""));
-        }
+        //if (meta != rule->metas)
+        //  _tprintf(_T(","));
+        //
+        //if (meta->type == META_TYPE_INTEGER)
+        //{
+        // // _tprintf(_T("%" PF_S " =%" PRId64), meta->identifier, meta->integer);
+        //  
+        //}
+        //else if (meta->type == META_TYPE_BOOLEAN)
+        //{
+        //  _tprintf(
+        //      _T("%" PF_S "=%" PF_S),
+        //      meta->identifier,
+        //      meta->integer ? "true" : "false");
+        //}
+        //else
+        //{
+        //  _tprintf(_T("%" PF_S "=\""), meta->identifier);
+        //  //print_escaped((uint8_t*) (meta->string), strlen(meta->string));
+        //  
+        //  _tprintf(_T("\""));
+        //}
         dr->rule_matchs[dr->size]->meta_data->size += 1;
       }
 
-      _tprintf(_T("] "));
+     // _tprintf(_T("] "));
     }
     
-    _tprintf(_T("%s\n"), ((CALLBACK_ARGS*) data)->file_path);
+   // _tprintf(_T("%s\n"), ((CALLBACK_ARGS*) data)->file_path);
 
-    //WriteToFile(filesavetemp, ((CALLBACK_ARGS*) data)->file_path);
-   // WriteToFile(filesavetemp, L'\n');
     //dr->fileName = ((CALLBACK_ARGS*) data)->file_path;
     // Show matched strings.
 
@@ -1339,7 +1337,7 @@ static int handle_message(
               print_string(match->data, match->data_length, 0);
           }
 
-          _tprintf(_T("\n"));
+         // _tprintf(_T("\n"));
         }
       }
     }
@@ -1966,7 +1964,7 @@ int _tmain(int argc, const char_t** argv) {
   {
     return EXIT_FAILURE;
   }
-
+  fprintf(stderr, "Call first:\n");
   const DetectResult* dr1 = detect(
       L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
   free_detect_result( dr1);
