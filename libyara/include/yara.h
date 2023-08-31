@@ -53,12 +53,13 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #ifdef EXPORTING_DLL
 extern __declspec(dllexport) int init_function(const wchar_t* pathRule);
-extern __declspec(dllexport) const detectResult* detect(
+extern __declspec(dllexport) const DetectResult* detect(
     const wchar_t* pathFileScan);
 extern __declspec(dllexport) void destroy();
 #else
 extern __declspec(dllexport) int init_function(const wchar_t* pathRule);
-extern __declspec(dllexport) const detectResult* detect(const wchar_t* pathFileScan);
+extern __declspec(dllexport) const DetectResult* detect(
+    const wchar_t* pathFileScan);
 extern __declspec(dllexport) void destroy();
 #endif
 
