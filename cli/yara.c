@@ -1962,27 +1962,33 @@ void destroy() {
 //  }
 //}
 
+
+
+
+
 int _tmain(int argc, const char_t** argv) {
     
     //main_funtion(argc, argv);
   int result = init_function(
-      L"C:\\Users\\TRUNG\\Desktop\\libyara\\checkpefile.yara");
+      L"C:\\Users\\CHU-TUAN-KIET\\Desktop\\thuctap586\\learndll\\taodactrung\\mustang.yara ");
   if (result == -1)
   {
     return EXIT_FAILURE;
   }
 
-  const DetectResult* dr1 = detect(
-      L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
+  /*const DetectResult* dr1 = detect(
+      L" ");*/
   //freeDetectResult((DetectResult*) dr1);
   fprintf(stderr, "Call secord:\n");
-  const DetectResult* dr2 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
-  const DetectResult* dr3 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
-  const DetectResult* dr4 = detect(
-      L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dll");
-  destroy();
 
-    
+  const DetectResult* dr2 = detect(L"C:\\Users\\CHU-TUAN-KIET\\Desktop\\1\\1.exe");
+  /*const DetectResult* dr3 = detect(L"D:\\Study\\Thuc tap\\checkvm.exe");
+  const DetectResult* dr4 = detect(
+      L"C:\\Users\\TRUNG\\Desktop\\libyara\\yara32.dvll");*/
+
+  char* key1 = dr2->rulematchs[0]->metadata->value[2];
+  fprintf(stderr, "%s", key1);
+  destroy();
 
   return 0;
 }
